@@ -1,29 +1,29 @@
 const Calculator = {
-    Display_Value: '0',
+    Display_value: '0',
     First_Operand: null,
     Wait_Second_Operand: false,
     operator: null,
 };
 
 function Input_Digit(digit) {
-    const {Display_Value,Wait_Second_Operand} = Calculator;
+    const {Display_value,Wait_Second_Operand} = Calculator;
     if (Wait_Second_Operand === true) {
-        Calculator.Display_Value= digit;
+        Calculator.Display_value= digit;
         Calculator.Wait_Second_Operand= false;
     } else {
-        Calculator.Display_Value = Display_Value==='0' ? digit : Display_Value + digit;
+        Calculator.Display_value = Display_value==='0' ? digit : Display_value + digit;
     }
 }
 
 function Input_Decimal(dot) {
     if (Calculator.Wait_Second_Operand==='true') return;
-    if(!Calculator.Display_Value.includes(dot)) {
-        Calculator.Display_Value += dot;
+    if(!Calculator.Display_value.includes(dot)) {
+        Calculator.Display_value += dot;
     }
 }
 function Handle_Operator(Next_Operator) {
-    const {First_Operand,Display_Value,operator} = Calculator;
-    const Value_of_Input = parseFloat(Display_Value);
+    const {First_Operand,Display_value,operator} = Calculator;
+    const Value_of_Input = parseFloat(Display_value);
     if (operator && Calculator.Wait_Second_Operand) {
         Calculator.operator= Next_Operator;
         return;
@@ -35,7 +35,7 @@ function Handle_Operator(Next_Operator) {
         let result = Perform_Calculation[operator] (Value_Now, Value_of_Input);
         result = Number(result).toFixed(9);
         result=(result*1).toString();
-        Calculator.Display_Value = parseFloat(result);
+        Calculator.Display_value = parseFloat(result);
         Calculator.First_Operand = parseFloat(result);
     }
     Calculator.Wait_Second_Operand = true;
@@ -51,7 +51,7 @@ const Perform_Calculation= {
 };
 
 function Calculator_Reset() {
-    Calculator.Display_Value= '0';
+    Calculator.Display_value= '0';
     Calculator.First_Operand= null;
     Calculator.Wait_Second_Operand= false;
     Calculator.operator =null;
@@ -59,24 +59,24 @@ function Calculator_Reset() {
 
 function Update_Display() {
     const Display = document.querySelector('.calculator-screen');
-    Display.Value = Calculator.Display_Value;
+    Display.value = Calculator.Display_value;
 }
 
 Update_Display();
-const Keys = document.querySelector('.calculator-Keys');
-Keys.addEventListener('click', (event) => {
+const keys = document.querySelector('.calculator-keys');
+keys.addEventListener('click', (event) => {
     const {target} = event;
     if (!target.matches('button')) {
         return;
     }
     if (target.classList.contains('operator')) {
-        Handle_Operator(target.Value);
+        Handle_Operator(target.value);
         Update_Display();
         return
     }
 
     if (target.classList.contains('decimal')) {
-        Input_Decimal(target.Value);
+        Input_Decimal(target.value);
         Update_Display();
         return;
     }
@@ -87,6 +87,6 @@ Keys.addEventListener('click', (event) => {
         return;
     }
 
-    Input_Digit(target.Value);
+    Input_Digit(target.value);
     Update_Display();
 } )
