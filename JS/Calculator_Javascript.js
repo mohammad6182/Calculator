@@ -35,6 +35,8 @@ function Handle_Operator(Next_Operator) {
         let result = Perform_Calculation[operator] (Value_Now, Value_of_Input);
         result = Number(result).toFixed(9);
         result=(result*1).toString();
+        Calculator.Display_Value = parseFloat(result);
+        Calculator.First_Operand = parseFloat(result);
     }
     Calculator.Wait_Second_Operand = true;
     Calculator.operator = Next_Operator;
